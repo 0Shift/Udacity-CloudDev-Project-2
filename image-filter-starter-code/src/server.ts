@@ -28,7 +28,20 @@ import {filterImageFromURL, deleteLocalFiles} from './util/util';
   // RETURNS
   //   the filtered image file [!!TIP res.sendFile(filteredpath); might be useful
   /**************************************************************************** */
+  app.get( "/filteredimage/",  ( req: Request, res: Response ) => {
+    let {image_url} = req.query
 
+    filterImageFromURL(image_url).then( (imgpath) => {
+      res.status(200)
+      .sendFile(`${imgpath}`)
+      filtered_imgs.push(imgpath)
+    })
+    // res.status(200).sendFile(`./util/tmp/*`)
+
+  } );
+
+
+  
   //! END @TODO1
   
   // Root Endpoint
