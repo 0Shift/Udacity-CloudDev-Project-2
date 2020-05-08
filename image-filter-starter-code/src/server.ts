@@ -35,7 +35,13 @@ import {filterImageFromURL, deleteLocalFiles} from './util/util';
       return res.status(400)
       .send("please include a url")
     }
+
     
+    if(!validURL(image_url)){
+      return res.status(400)
+      .send("please include a valid url")
+    }
+
     filterImageFromURL(image_url).then( (imgpath) => {
       res.status(200)
       .sendFile(`${imgpath}`)
@@ -62,4 +68,17 @@ import {filterImageFromURL, deleteLocalFiles} from './util/util';
       console.log( `press CTRL+C to stop server` );
   } );
 })();
+
+
+// function to check if the quey is a valid url
+function validURL(str: string) {
+  var pattern = new RegExp('^(https?:\\/\\/)?'+ // protocol
+    '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|'+ // domain name
+    '((\\d{1,3}\\.){3}\\d{1,3}))'+ // OR ip (v4) address
+    '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*'+ // port and path
+    '(\\?[;&a-z\\d%_.~+=-]*)?'+ // query string
+    '(\\#[-a-z\\d_]*)?$','i'); // fragment locator
+  return !!pattern.test(str);
+}
+
 
