@@ -37,12 +37,12 @@ import {filterImageFromURL, deleteLocalFiles} from './util/util';
     }
 
     
-    if(!validURL(image_url)){
+    if(!validURL(image_url+"")){
       return res.status(400)
       .send("please include a valid url")
     }
 
-    filterImageFromURL(image_url).then( (imgpath) => {
+    filterImageFromURL(image_url+"").then( (imgpath) => {
       res.status(200)
       .sendFile(`${imgpath}`)
       filtered_imgs.push(imgpath)
@@ -58,7 +58,7 @@ import {filterImageFromURL, deleteLocalFiles} from './util/util';
   // Root Endpoint
   // Displays a simple message to the user
   app.get( "/", async ( req, res ) => {
-    res.send("try GET /filteredimage?image_url={{}}")
+    res.status(200).send("try GET /filteredimage?image_url={{}}")
   } );
 
 
